@@ -176,6 +176,7 @@ etl_project/
 ├─ main.py
 ├─ .env
 ├─ requirements.txt
+├─ run_daily_pipeline.bat
 │
 ├─ config/
 │   ├─ config.py
@@ -282,21 +283,56 @@ PG_PASSWORD=your_password
 ```
 python main.py
 ```
+---
+
+## ⚙️ Automation & Scheduling
+
+The entire ETL pipeline is automated using **Windows Task Scheduler**, ensuring the workflow runs **twice daily** without manual intervention.
+
+A `.bat` script triggers the main orchestration file:
+
+```bat
+@echo off
+cd /d "C:\path\to\your\project"
+python main.py
+```
+
+### 📅 Schedule Configuration
+
+- **Trigger:** Daily  
+- **Repeat task every:** 12 hours  
+- **Duration:** 1 day  
+- **Action:** Run the `.bat` file from the project directory  
+- **Run mode:** Runs whether user is logged on or not  
+
+This setup ensures the pipeline executes reliably and keeps the Data Warehouse updated throughout the day.
 
 ---
 
-# 📊 Logging
+### 📝 Logging
 
-All logs stored in:
+The pipeline includes basic logging to track each run and assist with monitoring.
 
-```
-etl_staging.log
-```
+**Log Features:**
+- Start and end time of each ETL run  
+- Extract → Load → DW loading steps  
+- Error messages (if any)  
+- Output stored in: `etl_staging.log`  
+
+These logs make it easy to verify successful runs and diagnose issues if the scheduled execution fails.
 
 ---
 
 # 📫 Contact
 
-**Oluwatosin Amosu Bolaji**  
-- Data Engineer • Business Intelligence Analyst 
-- +234 816 270 9679 • oluwabolaji60@gmail.com 
+## Oluwatosin Amosu Bolaji 
+
+#### 🚀 **Always learning. Always building. Data-driven to the core.**  
+
+### 📫 **Let’s connect!**  
+- 📩 oluwabolaji60@gmail.com
+- 🔗 : [LinkedIn](https://www.linkedin.com/in/oluwatosin-amosu-722b88141)
+- 🌐 : [My Portfolio](https://www.datascienceportfol.io/oluwabolaji60) 
+- 𝕏 : [Twitter/X](https://x.com/thee_oluwatosin?s=21&t=EqoeQVdQd038wlSUzAtQzw)
+- 🔗 : [Medium](https://medium.com/@oluwabolaji60)
+- 🔗 : [View my Repositories](https://github.com/Tbrown1998?tab=repositories)
