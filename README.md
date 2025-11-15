@@ -1,7 +1,7 @@
-# End-to-End Data Warehouse Pipeline with SCD Type 2, ETL Staging, and Star Schema Modeling  
-### Python • PostgreSQL • Staging • Data Warehouse • Star Schema • SCD Type-2
+# End-to-End Data Warehouse Pipeline with SCD Logics(Type 0, Type 1, Type 2), ETL Staging Layer, and Star Schema Modeling in Data Warehouse
+### Python • PostgreSQL • Staging • Data Warehouse • Star Schema • Slowly Changing Dimensions
 
-A complete end-to-end **data engineering pipeline** that extracts ecommerce data from a public API, stages it in PostgreSQL, and builds a production-grade **data warehouse** with a **star schema** and **Slowly Changing Dimensions (SCD Type-2)**.
+A complete end-to-end **data engineering pipeline** that extracts ecommerce data from a public API, stages it in PostgreSQL, and builds a production-grade **data warehouse** with a **star schema** and implementing **Slowly Changing Dimensions** logics.
 
 ---
 
@@ -34,8 +34,8 @@ Staging tables:
 All staging tables are **truncated before every run**.
 
 ### **4. Load to Data Warehouse (DW)**  
-Warehouse is populated using stored procedures.  
-Your DW schema includes:
+Warehouse is populated using stored procedures that extracts the data from the staging layer.  
+DW schema includes:
 
 ### ✅ **Dimensions**
 - `dw.dim_products`
@@ -43,14 +43,19 @@ Your DW schema includes:
 - `dw.dim_categories`
 - `dw.dim_date`
 
+### **5. SCD Logic**
+
+- `dim_date` implement **SCD Type 0**, Populate/refresh date dimension (once or periodically).
+
+- `dim_products` and `dim_category` implement **SCD Type 1**, upserts and update product changes in the data warehouse schema.
+
+- `dim_customers` implement **SCD Type 2**, tracking attribute history over time.
+
 ### ✅ **Facts**
 - `dw.fact_cart_item` (one row per product inside a cart)
 - `dw.fact_cart` (one row per cart/checkout)
 
-Both fact tables join back to the four dimensions using surrogate keys generated in the DW layer.
-
-### **5. SCD Logic**
-`dim_products` and `dim_customers` implement **SCD Type-2**, tracking attribute history over time.
+Both fact tables join back to the four dimensions using surrogate keys generated in the DW transformation layer.
 
 ---
 
@@ -58,29 +63,27 @@ Both fact tables join back to the four dimensions using surrogate keys generated
 
 ```mermaid
 flowchart LR
-    A[FakeStore API
-Products, Users, Carts, Categories] --> B[Python ETL
-Extract → Transform → Load]
+    A["FakeStore API<br>Products, Users, Carts, Categories"] --> B["Python ETL<br>Extract → Transform → Load"]
 
-    subgraph STAGING [PostgreSQL - Staging]
-        S1[stg_products]
-        S2[stg_users]
-        S3[stg_carts]
-        S4[stg_categories]
+    subgraph STAGING ["PostgreSQL - Staging"]
+        S1["stg_products"]
+        S2["stg_users"]
+        S3["stg_carts"]
+        S4["stg_categories"]
     end
 
     B --> STAGING
 
-    subgraph DW [PostgreSQL - Data Warehouse]
-        D1[dim_products (SCD2)]
-        D2[dim_customers (SCD2)]
-        D3[dim_categories]
-        D4[dim_date]
-        F1[fact_cart_item]
-        F2[fact_cart]
+    subgraph DW ["PostgreSQL - Data Warehouse"]
+        D1["dim_products (SCD1)"]
+        D2["dim_customers (SCD2)"]
+        D3["dim_categories"]
+        D4["dim_date"]
+        F2["fact_cart"]
+        F1["fact_cart_item"]
     end
 
-    STAGING --> |Stored Procedures| DW
+    STAGING --> |"Stored Procedures"| DW
 
     D1 --> F1
     D2 --> F1
@@ -175,17 +178,22 @@ etl_project/
 │   ├─ config.py
 │   └─ logging_config.py
 │
-├─ db/
+├─ staging_db/
 │   ├─ db.py
 │   └─ run_procedures.py
 │
-├─ sql/
+├─ staging_sql_ddl/
 │   └─ sql_defs.py
 │
-├─ etl/
+├─ staging_etl/
 │   ├─ extract.py
 │   ├─ transform.py
 │   └─ load.py
+|
+├─ dw_sql_scripts/
+│   ├─ dw_schema.sql
+│   └─ dw_stored_procdures.sql
+│   
 │
 └─ etl_staging.log
 ```
@@ -288,3 +296,4 @@ etl_staging.log
 
 **Oluwatosin Amosu Bolaji**  
 Data Engineer • Business Intelligence Analyst 
++234 816 270 9679 • oluwabolaji60@gmail.com 
