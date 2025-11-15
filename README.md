@@ -295,5 +295,5 @@ etl_staging.log
 # 📫 Contact
 
 **Oluwatosin Amosu Bolaji**  
-Data Engineer • Business Intelligence Analyst 
-+234 816 270 9679 • oluwabolaji60@gmail.com 
+- Data Engineer • Business Intelligence Analyst 
+- +234 816 270 9679 • oluwabolaji60@gmail.com 
