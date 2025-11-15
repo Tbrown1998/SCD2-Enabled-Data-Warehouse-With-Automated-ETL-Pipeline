@@ -17,7 +17,6 @@ from etl.load import (
     load_carts_to_staging,
     load_categories_to_staging
 )
-
 import logging
 from db.run_procedures import run_procedure_sequence
 
