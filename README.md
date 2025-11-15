@@ -326,6 +326,9 @@ These logs make it easy to verify successful runs and diagnose issues if the sch
 # 📫 Contact
 
 ## Oluwatosin Amosu Bolaji 
+- Data Engineer 
+- Buiness Intelligence Analyst
+- ETL Developer
 
 #### 🚀 **Always learning. Always building. Data-driven to the core.**  
 
