@@ -1,0 +1,220 @@
+2025-11-14 14:53:43,383 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-14 14:53:43,384 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-14 14:53:50,232 — INFO — === API requests completed successfully. ===
+2025-11-14 14:53:50,234 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-14 14:53:50,244 — INFO — === Data normalization complete. ===
+2025-11-14 14:53:50,244 — INFO — === Flattening carts DataFrame... ===
+2025-11-14 14:53:50,251 — INFO — === Flattening complete. Records: 14 ===
+2025-11-14 14:53:50,385 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-14 14:53:50,391 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-14 14:53:50,395 — INFO — === Successfully created/ensured table staging.stg_products. ===
+2025-11-14 14:53:50,396 — INFO — === Successfully created/ensured table staging.stg_users. ===
+2025-11-14 14:53:50,397 — INFO — === Successfully created/ensured table staging.stg_carts. ===
+2025-11-14 14:53:50,398 — INFO — === Successfully created/ensured table staging.stg_categories. ===
+2025-11-14 14:53:50,429 — INFO — === Inserted products data successfully. ===
+2025-11-14 14:53:50,436 — INFO — === Inserted users data successfully. ===
+2025-11-14 14:53:50,441 — INFO — === Inserted flattened carts data successfully. ===
+2025-11-14 14:53:50,445 — INFO — === Inserted categories data successfully. ===
+2025-11-14 14:53:50,445 — INFO — === ETL process completed successfully! ===
+2025-11-14 14:53:50,445 — INFO — === Connection closed. ===
+2025-11-14 19:46:37,950 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-14 19:46:37,956 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-14 19:46:47,640 — INFO — === API requests completed successfully. ===
+2025-11-14 19:46:47,648 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-14 19:46:47,740 — INFO — === Data normalization complete. ===
+2025-11-14 19:46:47,761 — INFO — === Flattening carts DataFrame... ===
+2025-11-14 19:46:47,786 — INFO — === Flattening complete. Records: 14 ===
+2025-11-14 19:46:48,057 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-14 19:46:48,061 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-14 19:46:48,065 — INFO — === Successfully created/ensured table staging.stg_products. ===
+2025-11-14 19:46:48,065 — INFO — === Successfully created/ensured table staging.stg_users. ===
+2025-11-14 19:46:48,068 — INFO — === Successfully created/ensured table staging.stg_carts. ===
+2025-11-14 19:46:48,070 — INFO — === Successfully created/ensured table staging.stg_categories. ===
+2025-11-14 19:46:48,106 — INFO — === Table staging.stg_products truncated successfully. ===
+2025-11-14 19:46:48,125 — INFO — === Table staging.stg_users truncated successfully. ===
+2025-11-14 19:46:48,136 — INFO — === Table staging.stg_carts truncated successfully. ===
+2025-11-14 19:46:48,154 — INFO — === Table staging.stg_categories truncated successfully. ===
+2025-11-14 19:46:48,235 — INFO — === Inserted products data successfully. ===
+2025-11-14 19:46:48,266 — INFO — === Inserted users data successfully. ===
+2025-11-14 19:46:48,285 — INFO — === Inserted flattened carts data successfully. ===
+2025-11-14 19:46:48,293 — INFO — === Inserted categories data successfully. ===
+2025-11-14 19:46:48,315 — INFO — === Executing stored procedures ===
+2025-11-14 19:46:48,335 — INFO — === Successfully executed procedure: dw.usp_upsert_dim_category ===
+2025-11-14 19:46:48,347 — ERROR — === Error executing procedure dw.usp_scd2_customer: relation "staging.stg_customers" does not exist
+LINE 10:         FROM staging.stg_customers
+                      ^
+QUERY:  SELECT 
+            id, 
+            CONCAT(name_first, ' ', name_last) AS full_name,  -- FIX: use first + last name
+            username, 
+            password, 
+            email, 
+            phone, 
+            CONCAT(address_number, ', ', address_street, ', ', address_city, ', ', 'Atlanta, USA') AS full_address,
+            CONCAT(address_geolocation_lat, ', ', address_geolocation_long) AS geolocation
+        FROM staging.stg_customers
+CONTEXT:  PL/pgSQL function dw.usp_scd2_customer() line 9 at FOR over SELECT rows
+ ===
+2025-11-14 19:46:48,377 — INFO — === Successfully executed procedure: dw.usp_upsert_dim_product ===
+2025-11-14 19:46:48,381 — ERROR — === Error executing procedure dw.usp_load_fact_cart: column p.product_id does not exist
+LINE 8:   ON c.product_id = p.product_id
+                            ^
+HINT:  Perhaps you meant to reference the column "c.product_id".
+QUERY:  SELECT DISTINCT c.cart_id,
+               c.user_id,
+               SUM(p.price * c.quantity) AS total_value,
+               SUM(c.quantity) AS total_items,
+               c.date::date AS cart_date
+        FROM staging.stg_carts as c
+		JOIN staging.stg_products as p
+		ON c.product_id = p.product_id
+        GROUP BY id, user_id, date
+CONTEXT:  PL/pgSQL function dw.usp_load_fact_cart() line 6 at FOR over SELECT rows
+ ===
+2025-11-14 19:46:48,390 — ERROR — === Error executing procedure dw.usp_load_fact_cart_item: operator does not exist: character varying = integer
+LINE 3:         WHERE cart_id = r.cart_id
+                              ^
+HINT:  No operator matches the given name and argument types. You might need to add explicit type casts.
+QUERY:  SELECT cart_sk 
+                                FROM dw.fact_cart 
+        WHERE cart_id = r.cart_id
+CONTEXT:  PL/pgSQL function dw.usp_load_fact_cart_item() line 10 at SQL statement
+ ===
+2025-11-14 19:46:48,405 — INFO — === Full Pipeline Completed Successfully! ===
+2025-11-14 19:46:48,406 — INFO — === Connection closed. ===
+2025-11-14 19:47:43,634 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-14 19:47:43,635 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-14 19:47:51,910 — INFO — === API requests completed successfully. ===
+2025-11-14 19:47:51,911 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-14 19:47:51,918 — INFO — === Data normalization complete. ===
+2025-11-14 19:47:51,924 — INFO — === Flattening carts DataFrame... ===
+2025-11-14 19:47:51,929 — INFO — === Flattening complete. Records: 14 ===
+2025-11-14 19:47:52,106 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-14 19:47:52,108 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-14 19:47:52,110 — INFO — === Successfully created/ensured table staging.stg_products. ===
+2025-11-14 19:47:52,111 — INFO — === Successfully created/ensured table staging.stg_users. ===
+2025-11-14 19:47:52,113 — INFO — === Successfully created/ensured table staging.stg_carts. ===
+2025-11-14 19:47:52,116 — INFO — === Successfully created/ensured table staging.stg_categories. ===
+2025-11-14 19:47:52,187 — INFO — === Table staging.stg_products truncated successfully. ===
+2025-11-14 19:47:52,201 — INFO — === Table staging.stg_users truncated successfully. ===
+2025-11-14 19:47:52,219 — INFO — === Table staging.stg_carts truncated successfully. ===
+2025-11-14 19:47:52,234 — INFO — === Table staging.stg_categories truncated successfully. ===
+2025-11-14 19:47:52,256 — INFO — === Inserted products data successfully. ===
+2025-11-14 19:47:52,267 — INFO — === Inserted users data successfully. ===
+2025-11-14 19:47:52,281 — INFO — === Inserted flattened carts data successfully. ===
+2025-11-14 19:47:52,284 — INFO — === Inserted categories data successfully. ===
+2025-11-14 19:47:52,285 — INFO — === Full Pipeline Completed Successfully! ===
+2025-11-14 19:47:52,286 — INFO — === Connection closed. ===
+2025-11-14 20:15:54,937 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-14 20:15:54,939 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-14 20:16:03,847 — INFO — === API requests completed successfully. ===
+2025-11-14 20:16:03,848 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-14 20:16:03,890 — INFO — === Data normalization complete. ===
+2025-11-14 20:16:03,931 — INFO — === Flattening carts DataFrame... ===
+2025-11-14 20:16:03,944 — INFO — === Flattening complete. Records: 14 ===
+2025-11-14 20:16:04,274 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-14 20:16:04,289 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-14 20:16:04,308 — INFO — === Successfully created/ensured table staging.stg_products. ===
+2025-11-14 20:16:04,344 — INFO — === Successfully created/ensured table staging.stg_users. ===
+2025-11-14 20:16:04,354 — INFO — === Successfully created/ensured table staging.stg_carts. ===
+2025-11-14 20:16:04,369 — INFO — === Successfully created/ensured table staging.stg_categories. ===
+2025-11-14 20:16:04,416 — INFO — === Table staging.stg_products truncated successfully. ===
+2025-11-14 20:16:04,445 — INFO — === Table staging.stg_users truncated successfully. ===
+2025-11-14 20:16:04,450 — INFO — === Table staging.stg_carts truncated successfully. ===
+2025-11-14 20:16:04,466 — INFO — === Table staging.stg_categories truncated successfully. ===
+2025-11-14 20:16:04,499 — INFO — === Inserted products data successfully. ===
+2025-11-14 20:16:04,508 — INFO — === Inserted users data successfully. ===
+2025-11-14 20:16:04,512 — INFO — === Inserted flattened carts data successfully. ===
+2025-11-14 20:16:04,515 — INFO — === Inserted categories data successfully. ===
+2025-11-14 20:16:04,515 — INFO — === Full Pipeline Completed Successfully! ===
+2025-11-14 20:16:04,516 — INFO — === Connection closed. ===
+2025-11-14 20:43:39,844 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-14 20:43:39,845 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-14 20:43:48,056 — INFO — === API requests completed successfully. ===
+2025-11-14 20:43:48,057 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-14 20:43:48,071 — INFO — === Data normalization complete. ===
+2025-11-14 20:43:48,074 — INFO — === Flattening carts DataFrame... ===
+2025-11-14 20:43:48,083 — INFO — === Flattening complete. Records: 14 ===
+2025-11-14 20:43:48,335 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-14 20:43:48,336 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-14 20:43:48,338 — INFO — === Successfully created/ensured table staging.stg_products. ===
+2025-11-14 20:43:48,338 — INFO — === Successfully created/ensured table staging.stg_users. ===
+2025-11-14 20:43:48,339 — INFO — === Successfully created/ensured table staging.stg_carts. ===
+2025-11-14 20:43:48,341 — INFO — === Successfully created/ensured table staging.stg_categories. ===
+2025-11-14 20:43:48,422 — INFO — === Table staging.stg_products truncated successfully. ===
+2025-11-14 20:43:48,466 — INFO — === Table staging.stg_users truncated successfully. ===
+2025-11-14 20:43:48,489 — INFO — === Table staging.stg_carts truncated successfully. ===
+2025-11-14 20:43:48,515 — INFO — === Table staging.stg_categories truncated successfully. ===
+2025-11-14 20:43:48,529 — INFO — === Inserted products data successfully. ===
+2025-11-14 20:43:48,538 — INFO — === Inserted users data successfully. ===
+2025-11-14 20:43:48,543 — INFO — === Inserted flattened carts data successfully. ===
+2025-11-14 20:43:48,546 — INFO — === Inserted categories data successfully. ===
+2025-11-14 20:43:48,547 — INFO — === Executing stored procedures ===
+2025-11-14 20:43:48,566 — INFO — === Successfully executed procedure: dw.usp_upsert_dim_category ===
+2025-11-14 20:43:48,574 — INFO — === Successfully executed procedure: dw.usp_scd2_customer ===
+2025-11-14 20:43:48,584 — INFO — === Successfully executed procedure: dw.usp_upsert_dim_product ===
+2025-11-14 20:43:48,593 — INFO — === Successfully executed procedure: dw.usp_load_fact_cart ===
+2025-11-14 20:43:48,610 — INFO — === Successfully executed procedure: dw.usp_load_fact_cart_item ===
+2025-11-14 20:43:48,612 — INFO — === Stored Procedures Run Completed Successfully! ===
+2025-11-14 20:43:48,612 — INFO — === Full Pipeline Completed Successfully! ===
+2025-11-14 20:43:48,613 — INFO — === Connection closed. ===
+2025-11-15 00:47:23,966 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-15 00:47:23,968 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-15 00:47:32,306 — INFO — === API requests completed successfully. ===
+2025-11-15 00:47:32,309 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-15 00:47:32,389 — INFO — === Data normalization complete. ===
+2025-11-15 00:47:32,391 — INFO — === Flattening carts DataFrame... ===
+2025-11-15 00:47:32,409 — INFO — === Flattening complete. Records: 14 ===
+2025-11-15 00:47:32,673 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-15 00:47:32,679 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-15 00:47:32,688 — INFO — === Successfully created/ensured table staging.stg_products. ===
+2025-11-15 00:47:32,692 — INFO — === Successfully created/ensured table staging.stg_users. ===
+2025-11-15 00:47:32,698 — INFO — === Successfully created/ensured table staging.stg_carts. ===
+2025-11-15 00:47:32,701 — INFO — === Successfully created/ensured table staging.stg_categories. ===
+2025-11-15 00:47:32,777 — INFO — === Table staging.stg_products truncated successfully. ===
+2025-11-15 00:47:32,808 — INFO — === Table staging.stg_users truncated successfully. ===
+2025-11-15 00:47:32,818 — INFO — === Table staging.stg_carts truncated successfully. ===
+2025-11-15 00:47:32,851 — INFO — === Table staging.stg_categories truncated successfully. ===
+2025-11-15 00:47:32,902 — INFO — === Inserted products data successfully. ===
+2025-11-15 00:47:32,923 — INFO — === Inserted users data successfully. ===
+2025-11-15 00:47:32,941 — INFO — === Inserted flattened carts data successfully. ===
+2025-11-15 00:47:32,944 — INFO — === Inserted categories data successfully. ===
+2025-11-15 00:47:32,947 — INFO — === Executing stored procedures ===
+2025-11-15 00:47:32,988 — INFO — === Successfully executed procedure: dw.usp_upsert_dim_category ===
+2025-11-15 00:47:33,004 — INFO — === Successfully executed procedure: dw.usp_scd2_customer ===
+2025-11-15 00:47:33,016 — INFO — === Successfully executed procedure: dw.usp_upsert_dim_product ===
+2025-11-15 00:47:33,031 — INFO — === Successfully executed procedure: dw.usp_load_fact_cart ===
+2025-11-15 00:47:33,051 — INFO — === Successfully executed procedure: dw.usp_load_fact_cart_item ===
+2025-11-15 00:47:33,057 — INFO — === Stored Procedures Run Completed Successfully! ===
+2025-11-15 00:47:33,059 — INFO — === Full Pipeline Completed Successfully! ===
+2025-11-15 00:47:33,061 — INFO — === Connection closed. ===
+2025-11-15 00:48:03,103 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-15 00:48:03,104 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-15 00:48:10,815 — INFO — === API requests completed successfully. ===
+2025-11-15 00:48:10,816 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-15 00:48:10,819 — INFO — === Data normalization complete. ===
+2025-11-15 00:48:10,823 — INFO — === Flattening carts DataFrame... ===
+2025-11-15 00:48:10,827 — INFO — === Flattening complete. Records: 14 ===
+2025-11-15 00:48:10,979 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-15 00:48:10,982 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-15 00:48:10,983 — INFO — === Successfully created/ensured table staging.stg_products. ===
+2025-11-15 00:48:10,985 — INFO — === Successfully created/ensured table staging.stg_users. ===
+2025-11-15 00:48:10,988 — INFO — === Successfully created/ensured table staging.stg_carts. ===
+2025-11-15 00:48:10,990 — INFO — === Successfully created/ensured table staging.stg_categories. ===
+2025-11-15 00:48:11,045 — INFO — === Table staging.stg_products truncated successfully. ===
+2025-11-15 00:48:11,057 — INFO — === Table staging.stg_users truncated successfully. ===
+2025-11-15 00:48:11,064 — INFO — === Table staging.stg_carts truncated successfully. ===
+2025-11-15 00:48:11,079 — INFO — === Table staging.stg_categories truncated successfully. ===
+2025-11-15 00:48:11,092 — INFO — === Inserted products data successfully. ===
+2025-11-15 00:48:11,101 — INFO — === Inserted users data successfully. ===
+2025-11-15 00:48:11,104 — INFO — === Inserted flattened carts data successfully. ===
+2025-11-15 00:48:11,107 — INFO — === Inserted categories data successfully. ===
+2025-11-15 00:48:11,108 — INFO — === Executing stored procedures ===
+2025-11-15 00:48:11,123 — INFO — === Successfully executed procedure: dw.usp_upsert_dim_category ===
+2025-11-15 00:48:11,133 — INFO — === Successfully executed procedure: dw.usp_scd2_customer ===
+2025-11-15 00:48:11,142 — INFO — === Successfully executed procedure: dw.usp_upsert_dim_product ===
+2025-11-15 00:48:11,152 — INFO — === Successfully executed procedure: dw.usp_load_fact_cart ===
+2025-11-15 00:48:11,173 — INFO — === Successfully executed procedure: dw.usp_load_fact_cart_item ===
+2025-11-15 00:48:11,173 — INFO — === Stored Procedures Run Completed Successfully! ===
+2025-11-15 00:48:11,176 — INFO — === Full Pipeline Completed Successfully! ===
+2025-11-15 00:48:11,177 — INFO — === Connection closed. ===

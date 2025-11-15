@@ -1,0 +1,114 @@
+2025-11-09 01:58:13,932 — INFO — Fetching data from fakestoreapi...
+2025-11-09 02:08:03,151 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-09 02:08:03,154 — INFO — Fetching data from fakestoreapi...
+2025-11-09 02:08:11,265 — INFO — === API requests completed successfully.===
+2025-11-09 02:08:11,265 — INFO — ===Normalizing API JSON responses into DataFrames...===
+2025-11-09 02:08:11,277 — INFO — ===Data normalization complete.===
+2025-11-09 02:08:11,486 — ERROR — === Error connecting to PostgreSQL: connection to server at "localhost" (::1), port 5432 failed: fe_sendauth: no password supplied
+ ===
+2025-11-09 02:08:11,532 — CRITICAL — ===Database connection failed. Terminating ETL process.===
+2025-11-09 02:10:24,623 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-09 02:10:24,623 — INFO — Fetching data from fakestoreapi...
+2025-11-09 02:10:32,593 — INFO — === API requests completed successfully.===
+2025-11-09 02:10:32,597 — INFO — ===Normalizing API JSON responses into DataFrames...===
+2025-11-09 02:10:32,609 — INFO — ===Data normalization complete.===
+2025-11-09 02:10:32,850 — INFO — ===Connected to PostgreSQL database 'staging_ecommerce'===
+2025-11-09 02:10:32,853 — INFO — === Ensured 'staging' schema exists.===
+2025-11-09 02:10:32,854 — INFO — ===Successfully created table staging.stg_products.===
+2025-11-09 02:10:32,928 — INFO — ===Table staging.stg_products truncated successfully.===
+2025-11-09 02:10:32,980 — INFO — ===Successfully created table staging.stg_users.===
+2025-11-09 02:10:33,004 — INFO — ===Table staging.stg_users truncated successfully.===
+2025-11-09 02:10:33,023 — INFO — ===Successfully created table staging.stg_carts.===
+2025-11-09 02:10:33,048 — INFO — ===Table staging.stg_carts truncated successfully.===
+2025-11-09 02:10:33,067 — INFO — ===Successfully created table staging.stg_categories.===
+2025-11-09 02:10:33,100 — INFO — ===Table staging.stg_categories truncated successfully.===
+2025-11-09 02:16:15,185 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-09 02:16:15,188 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-09 02:16:24,246 — INFO — === API requests completed successfully. ===
+2025-11-09 02:16:24,249 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-09 02:16:24,257 — INFO — === Data normalization complete. ===
+2025-11-09 02:16:24,501 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-09 02:16:24,502 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-09 02:16:24,503 — INFO — === Successfully created table staging.stg_products. ===
+2025-11-09 02:16:24,572 — INFO — === Table staging.stg_products truncated successfully. ===
+2025-11-09 02:16:24,575 — INFO — === Successfully created table staging.stg_users. ===
+2025-11-09 02:16:24,593 — INFO — === Table staging.stg_users truncated successfully. ===
+2025-11-09 02:16:24,597 — INFO — === Successfully created table staging.stg_carts. ===
+2025-11-09 02:16:24,631 — INFO — === Table staging.stg_carts truncated successfully. ===
+2025-11-09 02:16:24,637 — INFO — === Successfully created table staging.stg_categories. ===
+2025-11-09 02:16:24,667 — INFO — === Table staging.stg_categories truncated successfully. ===
+2025-11-09 02:16:24,702 — INFO — === Inserted products data successfully. ===
+2025-11-09 02:16:24,718 — INFO — === Inserted users data successfully. ===
+2025-11-09 02:16:24,728 — ERROR — === Error inserting carts data: can't adapt type 'dict' ===
+2025-11-09 02:16:24,742 — INFO — === Inserted categories data successfully. ===
+2025-11-09 02:16:24,744 — INFO — === ETL process completed successfully! ===
+2025-11-09 02:16:24,753 — INFO — === Connection closed. ===
+2025-11-09 02:37:03,817 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-09 02:37:03,823 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-09 02:37:12,377 — INFO — === API requests completed successfully. ===
+2025-11-09 02:37:12,379 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-09 02:37:12,402 — INFO — === Data normalization complete. ===
+2025-11-09 02:37:12,587 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-09 02:37:12,588 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-09 02:37:12,590 — INFO — === Successfully created table staging.stg_products. ===
+2025-11-09 02:37:12,646 — INFO — === Table staging.stg_products truncated successfully. ===
+2025-11-09 02:37:12,648 — INFO — === Successfully created table staging.stg_users. ===
+2025-11-09 02:37:12,666 — INFO — === Table staging.stg_users truncated successfully. ===
+2025-11-09 02:37:12,683 — INFO — === Successfully created table staging.stg_carts. ===
+2025-11-09 02:37:12,735 — INFO — === Table staging.stg_carts truncated successfully. ===
+2025-11-09 02:37:12,737 — INFO — === Successfully created table staging.stg_categories. ===
+2025-11-09 02:37:12,754 — INFO — === Table staging.stg_categories truncated successfully. ===
+2025-11-09 02:37:12,772 — INFO — === Inserted products data successfully. ===
+2025-11-09 02:37:12,781 — INFO — === Inserted users data successfully. ===
+2025-11-09 02:37:12,782 — INFO — === Flattening and preparing carts data for insertion... ===
+2025-11-09 02:37:12,796 — ERROR — === Error inserting carts data: column "cart_id" of relation "stg_carts" does not exist
+LINE 2:     INSERT INTO staging.stg_carts (cart_id, user_id, date, p...
+                                           ^
+ ===
+2025-11-09 02:37:12,800 — INFO — === Inserted categories data successfully. ===
+2025-11-09 02:37:12,801 — INFO — === ETL process completed successfully! ===
+2025-11-09 02:37:12,802 — INFO — === Connection closed. ===
+2025-11-09 02:41:44,879 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-09 02:41:44,879 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-09 02:41:54,158 — INFO — === API requests completed successfully. ===
+2025-11-09 02:41:54,158 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-09 02:41:54,174 — INFO — === Data normalization complete. ===
+2025-11-09 02:41:54,383 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-09 02:41:54,385 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-09 02:41:54,386 — INFO — === Successfully created table staging.stg_products. ===
+2025-11-09 02:41:54,458 — INFO — === Table staging.stg_products truncated successfully. ===
+2025-11-09 02:41:54,462 — INFO — === Successfully created table staging.stg_users. ===
+2025-11-09 02:41:54,484 — INFO — === Table staging.stg_users truncated successfully. ===
+2025-11-09 02:41:54,519 — INFO — === Successfully created table staging.stg_carts. ===
+2025-11-09 02:41:54,531 — INFO — === Table staging.stg_carts truncated successfully. ===
+2025-11-09 02:41:54,535 — INFO — === Successfully created table staging.stg_categories. ===
+2025-11-09 02:41:54,569 — INFO — === Table staging.stg_categories truncated successfully. ===
+2025-11-09 02:41:54,600 — INFO — === Inserted products data successfully. ===
+2025-11-09 02:41:54,623 — INFO — === Inserted users data successfully. ===
+2025-11-09 02:41:54,628 — INFO — === Flattening and preparing carts data for insertion... ===
+2025-11-09 02:41:54,645 — INFO — === Inserted flattened carts data successfully. ===
+2025-11-09 02:41:54,649 — INFO — === Inserted categories data successfully. ===
+2025-11-09 02:41:54,651 — INFO — === ETL process completed successfully! ===
+2025-11-09 02:41:54,653 — INFO — === Connection closed. ===
+2025-11-10 09:36:18,669 — INFO — === Starting ETL pipeline for staging_ecommerce... ===
+2025-11-10 09:36:18,670 — INFO — === Fetching data from fakestoreapi... ===
+2025-11-10 09:36:25,188 — INFO — === API requests completed successfully. ===
+2025-11-10 09:36:25,189 — INFO — === Normalizing API JSON responses into DataFrames... ===
+2025-11-10 09:36:25,211 — INFO — === Data normalization complete. ===
+2025-11-10 09:36:25,331 — INFO — === Connected to PostgreSQL database 'staging_ecommerce' ===
+2025-11-10 09:36:25,336 — INFO — === Ensured 'staging' schema exists. ===
+2025-11-10 09:36:25,342 — INFO — === Successfully created table staging.stg_products. ===
+2025-11-10 09:36:25,367 — INFO — === Table staging.stg_products truncated successfully. ===
+2025-11-10 09:36:25,368 — INFO — === Successfully created table staging.stg_users. ===
+2025-11-10 09:36:25,379 — INFO — === Table staging.stg_users truncated successfully. ===
+2025-11-10 09:36:25,381 — INFO — === Successfully created table staging.stg_carts. ===
+2025-11-10 09:36:25,388 — INFO — === Table staging.stg_carts truncated successfully. ===
+2025-11-10 09:36:25,391 — INFO — === Successfully created table staging.stg_categories. ===
+2025-11-10 09:36:25,402 — INFO — === Table staging.stg_categories truncated successfully. ===
+2025-11-10 09:36:25,438 — INFO — === Inserted products data successfully. ===
+2025-11-10 09:36:25,448 — INFO — === Inserted users data successfully. ===
+2025-11-10 09:36:25,449 — INFO — === Flattening and preparing carts data for insertion... ===
+2025-11-10 09:36:25,455 — INFO — === Inserted flattened carts data successfully. ===
+2025-11-10 09:36:25,458 — INFO — === Inserted categories data successfully. ===
+2025-11-10 09:36:25,458 — INFO — === ETL process completed successfully! ===
+2025-11-10 09:36:25,459 — INFO — === Connection closed. ===
