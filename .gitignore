@@ -1,0 +1,58 @@
+# ==============================
+# ENVIRONMENT & SECRETS
+# ==============================
+.env
+.env*
+*.env
+
+# ==============================
+# PYTHON CACHE / BUILD
+# ==============================
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment folders
+venv/
+.venv/
+
+# ==============================
+# LOGS
+# ==============================
+*.log
+etl_staging.log
+
+# ==============================
+# PROJECT-SPECIFIC IGNORE FOLDERS
+# ==============================
+config/
+other/
+
+# If you have any local data dumps
+data/
+datasets/
+tmp/
+temp/
+
+# ==============================
+# DATABASE FILES (local)
+# ==============================
+*.db
+*.sqlite
+*.sqlite3
+
+# ==============================
+# OS / EDITOR JUNK
+# ==============================
+.DS_Store
+Thumbs.db
+
+# VSCode settings (optional)
+.vscode/
+
+# PyCharm settings (optional)
+.idea/
+
