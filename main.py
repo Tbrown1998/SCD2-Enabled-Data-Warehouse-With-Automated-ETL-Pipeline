@@ -1,24 +1,24 @@
 # main.py
 from config.logging_config import configure_logging
-from db.db import truncate_table
-from db.db import connect_postgres, ensure_staging_schema, execute_create_table
-from sql.sql_defs import (
+from staging_db.db import truncate_table
+from staging_db.db import connect_postgres, ensure_staging_schema, execute_create_table
+from staging_sql_ddl.sql_defs import (
     create_products_sql, 
     create_users_sql, 
     create_carts_sql, 
     create_categories_sql
 )
 
-from etl.extract import fetch_api_data
-from etl.transform import normalize_data, flatten_carts_df
-from etl.load import (
+from staging_etl.extract import fetch_api_data
+from staging_etl.transform import normalize_data, flatten_carts_df
+from staging_etl.load import (
     load_products_to_staging,
     load_users_to_staging,
     load_carts_to_staging,
     load_categories_to_staging
 )
 import logging
-from db.run_procedures import run_procedure_sequence
+from staging_db.run_procedures import run_procedure_sequence
 
 def main():
     configure_logging()
