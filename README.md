@@ -101,7 +101,7 @@ flowchart LR
 
 ---
 
-# 🌟 Star Schema Diagram — Data Warehouse
+# 🌟 Data Warehouse Star Schema Diagram
 
 ```mermaid
 erDiagram
