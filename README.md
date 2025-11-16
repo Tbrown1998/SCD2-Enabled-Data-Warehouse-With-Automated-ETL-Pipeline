@@ -62,7 +62,7 @@ Both fact tables join back to the four dimensions using surrogate keys generated
 
 ---
 
-# 🏗️ ER Diagram — Full System (API → Staging → DW)
+# 🏗️ ER Diagram - Full System (API → Staging → DW)
 
 ```mermaid
 flowchart LR
@@ -233,13 +233,12 @@ Executes DW stored procedures:
 
 ```python
 PROCEDURE_SEQUENCE = [
-    "sp_load_dim_products",
-    "sp_load_dim_customers",
-    "sp_load_dim_categories",
-    "sp_load_dim_date",
-    "sp_load_fact_cart",
-    "sp_load_fact_cart_item"
-]
+            "dw.usp_upsert_dim_category",
+            "dw.usp_scd2_customer",
+            "dw.usp_upsert_dim_product",
+            "dw.usp_load_fact_cart",
+            "dw.usp_load_fact_cart_item"
+        ]
 ```
 
 ---
