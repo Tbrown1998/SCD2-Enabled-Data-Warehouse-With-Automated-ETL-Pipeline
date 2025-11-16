@@ -249,10 +249,10 @@ PROCEDURE_SEQUENCE = [
 
 | Dimension | Description | Type |
 |-----------|-------------|------|
-| `dim_products` | Product catalog | SCD Type-2 |
-| `dim_customers` | Customer master data | SCD Type-2 |
-| `dim_categories` | Category lookup | Type-1 |
-| `dim_date` | Calendar dimension | Static |
+| `dim_products` | Product catalog | Upsert (SCD Type-1) |
+| `dim_customers` | Customer master data | Track Changes history (SCD Type-2) |
+| `dim_categories` | Category lookup | Upsert (SCD Type-1) |
+| `dim_date` | Calendar dimension | Static (SCD Type 0) |
 
 ## 📊 Fact Tables
 
