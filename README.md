@@ -1,10 +1,13 @@
 # End-to-End Data Warehouse Pipeline, ETL Staging Layer, SCD, Star Schema Modeling in Data Warehouse
 ### Python • PostgreSQL • Staging • Data Warehouse • Star Schema • Slowly Changing Dimensions (Type 0, Type 1, Type 2)
 
-![ETL Architecture Diagram](./full_etl_architecture.png)
+![alt text](<ETL Image.png>)
 
 
 A complete end-to-end **data engineering pipeline** that extracts ecommerce data from a public API, stages it in PostgreSQL, and builds a production-grade **data warehouse** with a **star schema** and implementing **Slowly Changing Dimensions** logics.
+
+- **⚙️ Domain:** Data Engineering | Analytics Engineering
+- **🧠 Stack:** Python • SQL • Slowly Changing Dimensions • Data warehouse
 
 ---
 
