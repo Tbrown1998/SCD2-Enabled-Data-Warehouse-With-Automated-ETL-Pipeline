@@ -65,7 +65,7 @@ Both fact tables join back to the four dimensions using surrogate keys generated
 
 ---
 
-# 🏗️ ER Diagram — Full System (API → Staging → DW)
+# 🏗️ ER Diagram - Full System (API → Staging → DW)
 
 ```mermaid
 flowchart LR
@@ -104,7 +104,7 @@ flowchart LR
 
 ---
 
-# 🌟 Star Schema Diagram — Data Warehouse
+# 🌟 Data Warehouse Star Schema Diagram
 
 ```mermaid
 erDiagram
@@ -236,13 +236,12 @@ Executes DW stored procedures:
 
 ```python
 PROCEDURE_SEQUENCE = [
-    "sp_load_dim_products",
-    "sp_load_dim_customers",
-    "sp_load_dim_categories",
-    "sp_load_dim_date",
-    "sp_load_fact_cart",
-    "sp_load_fact_cart_item"
-]
+            "dw.usp_upsert_dim_category",
+            "dw.usp_scd2_customer",
+            "dw.usp_upsert_dim_product",
+            "dw.usp_load_fact_cart",
+            "dw.usp_load_fact_cart_item"
+        ]
 ```
 
 ---
@@ -253,10 +252,10 @@ PROCEDURE_SEQUENCE = [
 
 | Dimension | Description | Type |
 |-----------|-------------|------|
-| `dim_products` | Product catalog | SCD Type-2 |
-| `dim_customers` | Customer master data | SCD Type-2 |
-| `dim_categories` | Category lookup | Type-1 |
-| `dim_date` | Calendar dimension | Static |
+| `dim_products` | Product catalog | Upsert (SCD Type-1) |
+| `dim_customers` | Customer master data | Track Changes history (SCD Type-2) |
+| `dim_categories` | Category lookup | Upsert (SCD Type-1) |
+| `dim_date` | Calendar dimension | Static (SCD Type 0) |
 
 ## 📊 Fact Tables
 
